@@ -1,13 +1,12 @@
 from discord.ext import commands
-import mcstatus
 import boto3
 
 ERROR_MESSAGE = 'Usage: ,server [start|stop|status]'
-INSTANCE_ID = 'i-0398a626488b90371'
-APPROVED_USERS = ['shnooker94', '__jared__', 'hotwire12', 'pizzacat.rar']
+INSTANCE_ID = '' #TODO: instance id
+APPROVED_USERS = ['__jared__', 'hotwire12', 'pizzacat.rar']
 
 
-class ServerCog(commands.Cog):
+class SatisfactoryServerCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -138,10 +137,7 @@ def get_server_status():
 
         instance_ip = instance['PublicIpAddress']
 
-        server = mcstatus.JavaServer.lookup(instance_ip + ':25565')
-        status = server.status()
-
-        return 'Server with ip ' + instance_ip + ' has ' + str(status.players.online) + ' player(s) online and replied in ' + "{:.2f}".format(status.latency) + 'ms'
+        return 'Server with ip ' + instance_ip + ' is online'
 
     except Exception as e:
         return e
@@ -164,4 +160,4 @@ def get_instance_status():
         return e
 
 async def setup(bot):
-    await bot.add_cog(ServerCog(bot))
+    await bot.add_cog(SatisfactoryServerCog(bot))
