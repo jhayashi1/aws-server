@@ -1,0 +1,19 @@
+[Service]
+RemainAfterExit=yes
+WorkingDirectory=/home/enigmatica2
+User=ubuntu
+# Start Screen, Java, and Minecraft
+#ExecStart=/usr/bin/screen -DmS mc /bin/bash launch.sh
+ExecStart=/usr/bin/screen -DmS mc /usr/bin/java -Xmx4G -jar forge-1.12.2-14.23.5.2860.jar nogui
+
+# Tell Minecraft to gracefully stop.
+# Ending Minecraft will terminate Java
+# systemd will kill Screen after the 10-second delay. No explicit kill for Screen needed
+ExecStop=/bin/bash /home/enigmatica2/backup-to-s3.sh
+ExecStop=screen -p 0 -S mc -X eval 'stuff "say SERVER SHUTTING DOWN. Saving map..."\015'
+ExecStop=screen -p 0 -S mc -X eval 'stuff "save-all"\015'
+ExecStop=screen -p 0 -S mc -X eval 'stuff "stop"\015'
+ExecStop=sleep 10
+
+[Install]
+WantedBy=multi-user.target
