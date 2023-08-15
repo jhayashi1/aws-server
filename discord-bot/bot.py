@@ -4,7 +4,7 @@ import os
 import discord
 import dotenv
 
-USERNAME = '__jared__'
+USERNAME = 'hotwire12'
 
 class SamTracker(commands.Cog):
     def __init__(self, bot):
