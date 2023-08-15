@@ -2,9 +2,11 @@ import asyncio
 import discord
 import os
 from discord.ext import commands
+from dotenv import load_dotenv
 
+load_dotenv()
 path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-token = open("token.txt").read()
+token = os.getenv('TOKEN')
 
 intents = discord.Intents.all()
 intents.messages = True

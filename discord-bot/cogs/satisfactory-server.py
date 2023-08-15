@@ -1,8 +1,9 @@
 from discord.ext import commands
 import boto3
+import os
 
 ERROR_MESSAGE = 'Usage: ,server [start|stop|status]'
-INSTANCE_ID = '' #TODO: instance id
+INSTANCE_ID = os.getenv('INSTANCE_ID')
 APPROVED_USERS = ['__jared__', 'hotwire12', 'pizzacat.rar']
 
 
