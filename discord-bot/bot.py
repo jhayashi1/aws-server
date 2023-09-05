@@ -1,29 +1,27 @@
-from discord.ext import commands
-from datetime import datetime, time
-import os
+import asyncio
 import discord
-import dotenv
+import os
+from discord.ext import commands
+from dotenv import load_dotenv
 
-USERNAME = 'hotwire12'
+load_dotenv()
+path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+token = os.getenv('TOKEN')
 
-class SamTracker(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+intents = discord.Intents.all()
+intents.messages = True
 
-    @commands.command(brief='Number of times Sam gets online during work hours')
-    async def sam(self, ctx):
-        num_times = os.environ['SAM']
-        await ctx.send("Sam slacked off at work and gotten on discord " + str(num_times) + " times since 08/15/2023")
+class MyBot(commands.Bot):
+    async def setup_hook(self):
+        bot.remove_command('help')
+        await load_extensions()
+        print("extensions loaded")
 
-    @commands.Cog.listener()
-    async def on_presence_update(self, before, after):
-        now = datetime.now()
-        #Check username -> time greater than 9am and less than 5pm -> day is not weekend -> current status is online -> previous status is not online
-        if before.name != USERNAME or now.time() < time(9) or now.time() > time(17) or now.weekday() >= 5 or after.status != discord.Status.online or before.status == discord.Status.online:
-            return
-        num_times = int(os.environ['SAM']) + 1
-        os.environ['SAM'] = str(num_times)
-        dotenv.set_key(dotenv.find_dotenv(), 'SAM', os.environ['SAM'])
+async def load_extensions():
+    for file in os.listdir("cogs"):
+        if file.endswith(".py"):
+            name = file[:-3]
+            await bot.load_extension('cogs.' + name)
 
-async def setup(bot):
-    await bot.add_cog(SamTracker(bot))
+bot = MyBot(command_prefix=',', intents=intents)
+bot.run(token)
