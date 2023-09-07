@@ -2,6 +2,7 @@ from discord.ext import commands
 from datetime import datetime, time
 import os
 import discord
+import dotenv
 
 USERNAME = 'gaymera'
 
@@ -17,11 +18,12 @@ class CameronTracker(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         author = message.author
-        if author == USERNAME and author.status == discord.Status.offline:
-            num_times = int(os.environ['CAMERON'])
-            os.environ['CAMERON'] = num_times + 1
+        if author.name == USERNAME and author.status == discord.Status.offline:
+            num_times = int(os.environ['CAMERON']) + 1
+            os.environ['CAMERON'] = str(num_times)
+            dotenv.set_key(dotenv.find_dotenv(), 'CAMERON', os.environ['CAMERON'])
+
             return
-        
 
 async def setup(bot):
     await bot.add_cog(CameronTracker(bot))
