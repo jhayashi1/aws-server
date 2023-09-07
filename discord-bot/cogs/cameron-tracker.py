@@ -22,7 +22,7 @@ class CameronTracker(commands.Cog):
             num_times = int(os.environ['CAMERON']) + 1
             os.environ['CAMERON'] = str(num_times)
             dotenv.set_key(dotenv.find_dotenv(), 'CAMERON', os.environ['CAMERON'])
-
+            await message.add_reaction('\U0001F47B')
             return
 
 async def setup(bot):
