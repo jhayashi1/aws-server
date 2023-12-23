@@ -10,7 +10,7 @@ class CameronTracker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(brief='Number of times Cameron sends a message while invisible')
+    @commands.command(brief='Number of times Cameron sends a message while invisible', alias=['cam'])
     async def cameron(self, ctx):
         num_times = os.environ['CAMERON']
         await ctx.send(f"Cameron has sent {num_times} messages as a ghost since 09/05/2023")

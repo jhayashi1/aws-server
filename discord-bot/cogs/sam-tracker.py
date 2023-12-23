@@ -1,5 +1,6 @@
 from discord.ext import commands
 from datetime import datetime, time
+import dotenv
 import os
 import discord
 
@@ -21,8 +22,10 @@ class SamTracker(commands.Cog):
         if before != USERNAME or now.time() < time(9) or now.time() > time(17) or now.weekday() >= 5 or after.status != discord.Status.online or before.status == discord.Status.online:
             return
 
-        num_times = int(os.environ['SAM'])
-        os.environ['SAM'] = num_times + 1
+        num_times = int(os.environ['SAM']) + 1
+        os.environ['SAM'] = str(num_times)
+        dotenv.set_key(dotenv.find_dotenv(), 'SAM', os.environ['SAM'])
+
         
 
 async def setup(bot):
