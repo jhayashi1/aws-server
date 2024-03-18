@@ -1,0 +1,9 @@
+[Service]
+RemainAfterExit=yes
+WorkingDirectory=/home/ubuntu/factorio
+User=ubuntu
+# Start Screen and factorio
+ExecStart=/usr/bin/screen -DmS factorio /home/ubuntu/factorio/bin/x64/factorio --start-server-load-latest --server-settings /home/ubuntu/factorio/data/server-settings.json
+
+[Install]
+WantedBy=multi-user.target
