@@ -1,7 +1,9 @@
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:17.0.10-al2023-headless
-COPY server/ /opt/server/
 
+ENV SERVER_PATH=/opt/server/
+
+COPY server/ ${SERVER_PATH}
 EXPOSE 25565
-RUN ["chmod", "+x", "/opt/server/start.sh"]
 
-# ENTRYPOINT [ "/bin/bash", "/opt/server/start.sh" ]
+RUN chmod +x ${SERVER_PATH}/start.sh
+ENTRYPOINT /bin/bash ${SERVER_PATH}/start.sh
