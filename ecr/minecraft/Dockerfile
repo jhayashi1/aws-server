@@ -1,6 +1,6 @@
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:17.0.10-al2023-headless
 
-ENV SERVER_PATH=/opt/server/
+ENV SERVER_PATH=/opt/server
 
 COPY server/ ${SERVER_PATH}
 EXPOSE 25565
